@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal Finance Tracker</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="app-header">
+    <h1>💰 Finance Tracker</h1>
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+      <button class="tab-btn" data-tab="transactions">Transactions</button>
+      <button class="tab-btn" data-tab="budget">Budget</button>
+      <button class="tab-btn" data-tab="accounts">Net Worth</button>
+      <button class="tab-btn" data-tab="settings">Settings</button>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="tab-panel active">
+      <div class="month-filter">
+        <label for="dashMonth">Month</label>
+        <input type="month" id="dashMonth">
+      </div>
+
+      <div class="cards">
+        <div class="card income">
+          <span class="card-label">Income</span>
+          <span class="card-value" id="cardIncome">0</span>
+        </div>
+        <div class="card expense">
+          <span class="card-label">Expenses</span>
+          <span class="card-value" id="cardExpense">0</span>
+        </div>
+        <div class="card net">
+          <span class="card-label">Net Savings</span>
+          <span class="card-value" id="cardNet">0</span>
+        </div>
+        <div class="card rate">
+          <span class="card-label">Savings Rate</span>
+          <span class="card-value" id="cardRate">0%</span>
+        </div>
+      </div>
+
+      <div class="charts">
+        <div class="chart-box">
+          <h3>Spending by Category</h3>
+          <canvas id="categoryChart" width="360" height="260"></canvas>
+          <div id="categoryLegend" class="legend"></div>
+        </div>
+        <div class="chart-box">
+          <h3>Income vs Expenses (last 6 months)</h3>
+          <canvas id="trendChart" width="480" height="260"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRANSACTIONS -->
+    <section id="transactions" class="tab-panel">
+      <form id="txForm" class="tx-form">
+        <input type="date" id="txDate" required>
+        <select id="txType" required>
+          <option value="expense">Expense</option>
+          <option value="income">Income</option>
+        </select>
+        <select id="txCategory" required></select>
+        <input type="number" id="txAmount" placeholder="Amount" step="0.01" min="0.01" required>
+        <input type="text" id="txNote" placeholder="Note (optional)">
+        <button type="submit">Add</button>
+      </form>
+
+      <div class="tx-filter">
+        <label for="txMonthFilter">Filter month</label>
+        <input type="month" id="txMonthFilter">
+        <button id="clearFilter" type="button">Show all</button>
+      </div>
+
+      <table class="tx-table">
+        <thead>
+          <tr><th>Date</th><th>Type</th><th>Category</th><th>Note</th><th>Amount</th><th></th></tr>
+        </thead>
+        <tbody id="txTableBody"></tbody>
+      </table>
+    </section>
+
+    <!-- BUDGET -->
+    <section id="budget" class="tab-panel">
+      <p class="hint">Set target percentages of income for each spending group (defaults follow the 50/30/20 rule) and see how this month's actual spending compares.</p>
+      <div id="budgetGroups" class="budget-groups"></div>
+    </section>
+
+    <!-- ACCOUNTS / NET WORTH -->
+    <section id="accounts" class="tab-panel">
+      <form id="acctForm" class="acct-form">
+        <input type="text" id="acctName" placeholder="Account name" required>
+        <select id="acctType">
+          <option>Cash</option>
+          <option>Savings</option>
+          <option>Investment</option>
+          <option>Pension</option>
+          <option>Property</option>
+          <option>Debt / Loan</option>
+          <option>Credit Card</option>
+          <option>Other</option>
+        </select>
+        <input type="number" id="acctBalance" placeholder="Balance" step="0.01" required>
+        <button type="submit">Add Account</button>
+      </form>
+
+      <table class="tx-table">
+        <thead><tr><th>Account</th><th>Type</th><th>Balance</th><th></th></tr></thead>
+        <tbody id="acctTableBody"></tbody>
+      </table>
+      <div class="net-worth-total">Total Net Worth: <span id="netWorthTotal">0</span></div>
+
+      <hr>
+      <h3>Net Worth History</h3>
+      <div class="snapshot-row">
+        <button id="snapshotBtn" type="button">Record Snapshot for Today</button>
+      </div>
+      <canvas id="netWorthChart" width="760" height="260"></canvas>
+    </section>
+
+    <!-- SETTINGS -->
+    <section id="settings" class="tab-panel">
+      <div class="settings-row">
+        <label for="currencySymbol">Currency symbol</label>
+        <input type="text" id="currencySymbol" maxlength="3" style="width:60px">
+      </div>
+      <div class="settings-row">
+        <button id="exportBtn" type="button">Export Data (JSON)</button>
+        <button id="importBtn" type="button">Import Data</button>
+        <input type="file" id="importFile" accept="application/json" hidden>
+      </div>
+      <div class="settings-row">
+        <button id="resetBtn" type="button" class="danger">Reset All Data</button>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
